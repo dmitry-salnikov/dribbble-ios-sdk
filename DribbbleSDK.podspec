@@ -18,13 +18,13 @@ Uses latest Dribbble HTTP API !
     * Markdown format.
     * Don't worry about the indent, we strip it!
     DESC
-    s.homepage         = "https://github.com/agilie/dribbble-ios-sdk"
+    s.homepage         = "https://github.com/dmitry-salnikov/dribbble-ios-sdk"
     # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.authors           = { 'Agilie' => 'info@agilie.com' }
-    s.source           = { :git => "https://github.com/agilie/dribbble-ios-sdk.git",
-                            :tag => s.version.to_s
-                            :branch => "public"
+    s.source           = { :git => "https://github.com/dmitry-salnikov/dribbble-ios-sdk.git",
+                            :tag => s.version.to_s,
+                            :branch => "gtm"
                         }
     # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
@@ -40,6 +40,6 @@ Uses latest Dribbble HTTP API !
     s.frameworks = 'Foundation'
     s.dependency 'AFNetworking', '~> 2.3'
     s.dependency 'BlocksKit'
-    s.dependency 'NXOAuth2Client'
+    s.dependency 'gtm-oauth2'
     s.dependency 'JSONModel'
 end

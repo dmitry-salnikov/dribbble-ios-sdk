@@ -35,13 +35,15 @@ PODS:
   - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
-  - DribbbleSDK (0.0.1):
+  - DribbbleSDK (0.0.2):
     - AFNetworking (~> 2.3)
     - BlocksKit
+    - gtm-oauth2
     - JSONModel
-    - NXOAuth2Client
+  - gtm-http-fetcher (1.0.141)
+  - gtm-oauth2 (1.0.126):
+    - gtm-http-fetcher (~> 1.0.141)
   - JSONModel (1.1.0)
-  - NXOAuth2Client (1.2.8)
 
 DEPENDENCIES:
   - DribbbleSDK (from `./`)
@@ -53,8 +55,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
-  DribbbleSDK: b3aab3963945321aae31d5f601a3e84d0479a176
+  DribbbleSDK: 9167a207847a33e427ac4739fd70d594f33c7640
+  gtm-http-fetcher: 6d4617e7d343b6e4c082b777541c334eb6f5d81e
+  gtm-oauth2: 2a18b824e4f8a02df6cfe987beb59ae9d9697f9d
   JSONModel: ec77e9865236a7a09d9cf7668df6b4b328d9ec1d
-  NXOAuth2Client: 98c4d4c594edd2b289cfc34a8928653e1dab7adf
 
 COCOAPODS: 0.37.2
