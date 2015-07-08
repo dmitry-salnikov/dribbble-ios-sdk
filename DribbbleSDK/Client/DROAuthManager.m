@@ -32,7 +32,7 @@
                                                    redirectURI:settings.oAuth2RedirectUrl
                                                       clientID:settings.clientId
                                                   clientSecret:settings.clientSecret];
-    auth.scope = @"public";
+    auth.scope = [[settings.scopes allObjects] componentsJoinedByString:@"+"];
     NSURL *authURL = [NSURL URLWithString:settings.oAuth2AuthorizationUrl];
     
     // Display the authentication view

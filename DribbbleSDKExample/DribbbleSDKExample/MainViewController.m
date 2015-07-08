@@ -83,8 +83,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     __weak typeof(self) weakSelf = self;
     
     UIViewController *authController = [self.apiClient retrieveAuthorizationContollerWithAuthHandler:^(GTMOAuth2Authentication *auth, NSError *error) {
-        NSLog(@"signed in error: %@", error);
-        [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
     [self presentViewController:authController animated:YES completion:nil];
     
