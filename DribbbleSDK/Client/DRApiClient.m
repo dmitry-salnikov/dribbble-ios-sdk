@@ -7,7 +7,8 @@
 //
 
 #import "DRApiClient.h"
-#import "NXOAuth2.h"
+#import "GTMOAuth2SignIn.h"
+#import "GTMOAuth2ViewControllerTouch.h"
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
 static NSInteger const kUploadFileBytesLimitSize = 8.0;
@@ -39,6 +40,7 @@ void DRLog(NSString *format, ...) {
 @property (strong, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 
+@property (strong, nonatomic) GTMOAuth2Authentication *authentification;
 
 @end
 
@@ -79,37 +81,49 @@ void DRLog(NSString *format, ...) {
     self.accessToken = self.settings.clientAccessToken;
 }
 
+
 - (void)restoreAccessToken {
-    NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];
-    if (account) {
-        DRLog(@"token restored: %@", account.accessToken.accessToken);
-        self.accessToken = account.accessToken.accessToken;
-    }
+//    NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];
+//    if (account) {
+//        DRLog(@"token restored: %@", account.accessToken.accessToken);
+//        self.accessToken = account.accessToken.accessToken;
+//    }
+    // Get the saved authentication, if any, from the keychain.
+    GTMOAuth2Authentication *auth;
+    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kIDMOAccountType
+                                                                 clientID:self.settings.clientId
+                                                             clientSecret:self.settings.clientSecret];
+    
+    // Retain the authentication object, which holds the auth tokens
+    //
+    // We can determine later if the auth object contains an access token
+    // by calling its -canAuthorize method
+    self.accessToken = auth.accessToken;
 }
 
 - (BOOL)isUserAuthorized {
     return [self.accessToken length] && ![self.accessToken isEqualToString:self.settings.clientAccessToken];
 }
 
-- (void)authorizeWithWebView:(UIWebView *)webView authHandler:(DROAuthHandler)authHandler {
-    __weak typeof(self) weakSelf = self;
-    [self.oauthManager authorizeWithWebView:webView settings:self.settings authHandler:^(NXOAuth2Account *account, NSError *error) {
-        if (!error && account) {
-            if (account.accessToken.accessToken.length > 0) {
-                weakSelf.accessToken = account.accessToken.accessToken;
+- (UIViewController *)retrieveAuthorizationContollerWithAuthHandler:(DROAuthHandler)authHandler {
+    __weak typeof(self)weakSelf = self;
+    return [self.oauthManager retrieveSignInControllerWithSettings:self.settings authHandler:^(GTMOAuth2Authentication *auth, NSError *error) {
+        if (!error && auth) {
+            if (auth.accessToken.length > 0) {
+                weakSelf.accessToken = auth.accessToken;
             }
         } else {
             [weakSelf resetAccessToken];
             if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         }
-        if (authHandler) authHandler(account, error);
+        if (authHandler) authHandler(auth, error);
     }];
 }
 
 - (void)logout {
-    [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
-        [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
-    }];
+//    [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
+//        [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
+//    }];
     NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *cookie in [storage cookies]) {
         [storage deleteCookie:cookie];

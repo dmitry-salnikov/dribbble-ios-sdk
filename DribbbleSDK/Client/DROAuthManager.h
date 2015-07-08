@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "DribbbleSDK.h"
 
-@class DRApiClientSettings;
+@class DRApiClientSettings, GTMOAuth2Authentication, GTMOAuth2ViewControllerTouch;
 
 @interface DROAuthManager : NSObject <UIWebViewDelegate>
 
-- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings authHandler:(DROAuthHandler)authHandler;
+//@property (strong, nonatomic) GTMOAuth2Authentication *authentification;
+
+- (GTMOAuth2ViewControllerTouch *)retrieveSignInControllerWithSettings:(DRApiClientSettings *)settings authHandler:(DROAuthHandler)authHandler;
+
+//- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings authHandler:(DROAuthHandler)authHandler;
 
 @end

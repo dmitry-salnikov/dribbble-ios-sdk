@@ -25,7 +25,8 @@ extern void DRLog(NSString *format, ...);
 
 #pragma mark - Auth
 
-- (void)authorizeWithWebView:(UIWebView *)webView authHandler:(DROAuthHandler)authHandler;
+//- (void)authorizeWithWebView:(UIWebView *)webView authHandler:(DROAuthHandler)authHandler;
+- (UIViewController *)retrieveAuthorizationContollerWithAuthHandler:(DROAuthHandler)authHandler;
 
 #pragma mark - API methods
 

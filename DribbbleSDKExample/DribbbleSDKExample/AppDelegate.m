@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "NXOAuth2.h"
 
 @interface AppDelegate ()
 
