@@ -101,6 +101,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
                                                                clientAccessToken:kIDMOAuth2ClientAccessToken
                                                                           scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, kDRUploadScope, kDRCommentScope, nil]];
     self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
+    [self.apiClient logout];
     __weak typeof(self) weakSelf = self;
     self.apiClient.defaultErrorHandler = ^ (NSError *error) {
         if (error.domain == NSURLErrorDomain && ![weakSelf.apiClient isUserAuthorized]) {

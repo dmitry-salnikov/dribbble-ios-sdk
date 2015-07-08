@@ -49,7 +49,18 @@
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
       finishedWithAuth:(GTMOAuth2Authentication *)auth
                  error:(NSError *)error {
-    [self finalizeAuthWithAccount:auth error:error];
+    NSError *payloadError = error;
+    if (error) {
+        NSString *errorTitle = auth.parameters[@"error"];
+        NSString *errorMessage = auth.parameters[@"error_description"];
+        if (errorTitle && errorMessage) {
+            payloadError = [NSError errorWithDomain:error.domain
+                                               code:error.code
+                                           userInfo:@{ NSLocalizedDescriptionKey : errorMessage ?: errorTitle,
+                                                       NSLocalizedFailureReasonErrorKey : errorTitle ?: @"unknown"}];
+        }
+    }
+    [self finalizeAuthWithAccount:auth error:payloadError];
 }
 
 - (void)finalizeAuthWithAccount:(GTMOAuth2Authentication *)auth error:(NSError *)error {
